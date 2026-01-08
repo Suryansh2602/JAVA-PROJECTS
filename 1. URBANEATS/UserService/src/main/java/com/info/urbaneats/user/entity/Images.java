@@ -2,7 +2,6 @@ package com.info.urbaneats.user.entity;
 
 import java.util.List;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,9 +14,33 @@ import jakarta.persistence.Table;
 public class Images {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Integer id;
-private List<String> url;
-@OneToOne
-private User user;
+	private Integer id;
+	private List<String> url;
+	@OneToOne
+	private User user;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public List<String> getUrl() {
+		return url;
+	}
+
+	public void setUrl(List<String> url) {
+		this.url = url;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 }

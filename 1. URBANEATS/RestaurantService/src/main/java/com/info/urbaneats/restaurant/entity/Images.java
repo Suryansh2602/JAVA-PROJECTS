@@ -14,9 +14,33 @@ import jakarta.persistence.Table;
 public class Images {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Integer id;
-private List<String> url;
-@ManyToOne
-private Restaurant restaurant;
+	private Integer id;
+	private List<String> url;
+	@ManyToOne
+	private Restaurant restaurant;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public List<String> getUrl() {
+		return url;
+	}
+
+	public void setUrl(List<String> url) {
+		this.url = url;
+	}
+
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
 
 }
