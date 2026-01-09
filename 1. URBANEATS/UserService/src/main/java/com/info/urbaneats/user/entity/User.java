@@ -2,6 +2,7 @@ package com.info.urbaneats.user.entity;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,13 +16,40 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String mail;
+	private String username;
+	private String role;
+	@Column(nullable = false, unique = true)
+	private String email;
 	private String adhar;
 	private String phone;
 	private String password;
 	private List<String> restaurant;
 	@OneToOne(mappedBy = "user")
 	private Images image;
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	public Integer getId() {
 		return id;
@@ -31,13 +59,7 @@ public class User {
 		this.id = id;
 	}
 
-	public String getMail() {
-		return mail;
-	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
+	
 
 	public String getAdhar() {
 		return adhar;

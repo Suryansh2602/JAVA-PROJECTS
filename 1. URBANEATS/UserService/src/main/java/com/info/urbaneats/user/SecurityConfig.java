@@ -1,4 +1,4 @@
-package com.info;
+package com.info.urbaneats.user;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

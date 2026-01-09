@@ -1,4 +1,4 @@
-package com.info.urbaneats.restaurant.exception;
+package com.info.exception;
 
 import java.util.HashMap;
 

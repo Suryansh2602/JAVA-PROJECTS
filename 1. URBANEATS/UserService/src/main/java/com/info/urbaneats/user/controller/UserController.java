@@ -1,4 +1,4 @@
-package com.info.controller;
+package com.info.urbaneats.user.controller;
 
 import java.util.HashMap;
 
@@ -8,14 +8,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.info.JwtUtil;
-import com.info.entity.User;
-import com.info.service.UserService;
+import com.info.urbaneats.user.JwtUtil;
+import com.info.urbaneats.user.entity.User;
+import com.info.urbaneats.user.service.UserService;
 
 @RestController
 @RequestMapping("/user")
@@ -26,8 +28,8 @@ public class UserController {
 	private final UserDetailsService detailsService;
 	private final JwtUtil jwt;
 
-	public UserController(UserService userService, AuthenticationManager authenticationManager,
-			UserDetailsService detailsService, JwtUtil jwt) {
+	public UserController(com.info.urbaneats.user.service.UserService userService,
+			AuthenticationManager authenticationManager, UserDetailsService detailsService, JwtUtil jwt) {
 		this.userService = userService;
 		this.authenticationManager = authenticationManager;
 		this.detailsService = detailsService;
@@ -49,5 +51,10 @@ public class UserController {
 		hm.put("message", "Sign in success");
 		hm.put("token", token);
 		return ResponseEntity.ok(hm);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
+		return ResponseEntity.ok(userService.deleteUser(id));
 	}
 }
