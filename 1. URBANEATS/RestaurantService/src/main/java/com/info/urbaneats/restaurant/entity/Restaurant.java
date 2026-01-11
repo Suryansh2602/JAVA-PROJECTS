@@ -1,14 +1,7 @@
 package com.info.urbaneats.restaurant.entity;
 
+import jakarta.persistence.*;
 import java.util.List;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "restaurants")
@@ -16,12 +9,23 @@ public class Restaurant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
 	private String name;
 	private String fssai;
 	private String phone;
 	private String whatsapp;
 	private String mail;
 	private String password;
+	private String ownerName;
+	private String description;
+
+	@ElementCollection
+	private List<String> cuisine;
+
+	private Boolean isOpen = true;
+
+	@OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Images> images;
 
 	public Integer getId() {
 		return id;
@@ -103,6 +107,14 @@ public class Restaurant {
 		this.cuisine = cuisine;
 	}
 
+	public Boolean getIsOpen() {
+		return isOpen;
+	}
+
+	public void setIsOpen(Boolean isOpen) {
+		this.isOpen = isOpen;
+	}
+
 	public List<Images> getImages() {
 		return images;
 	}
@@ -110,12 +122,4 @@ public class Restaurant {
 	public void setImages(List<Images> images) {
 		this.images = images;
 	}
-
-	private String ownerName;
-	private String description;
-	private List<String> cuisine;
-
-	@OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-	private List<Images> images;
-
 }

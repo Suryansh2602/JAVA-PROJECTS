@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.info.urbaneats.restaurant.entity.Images;
 
-
 public class RestaurantDTO {
 	private Integer id;
 	private String name;
@@ -12,10 +11,19 @@ public class RestaurantDTO {
 	private String phone;
 	private String whatsapp;
 	private String mail;
-	private Integer ownerName;
+	private String ownerName;
 	private String description;
 	private List<String> cuisine;
 	private List<Images> images;
+	private boolean isOpen;
+
+	public boolean isOpen() {
+		return isOpen;
+	}
+
+	public void setOpen(boolean isOpen) {
+		this.isOpen = isOpen;
+	}
 
 	public Integer getId() {
 		return id;
@@ -65,11 +73,11 @@ public class RestaurantDTO {
 		this.mail = mail;
 	}
 
-	public Integer getOwnerName() {
+	public String getOwnerName() {
 		return ownerName;
 	}
 
-	public void setOwnerName(Integer ownerName) {
+	public void setOwnerName(String ownerName) {
 		this.ownerName = ownerName;
 	}
 
