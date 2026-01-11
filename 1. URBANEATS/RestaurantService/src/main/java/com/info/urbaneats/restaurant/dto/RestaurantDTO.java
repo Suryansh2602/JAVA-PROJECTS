@@ -15,7 +15,7 @@ public class RestaurantDTO {
 	private String description;
 	private List<String> cuisine;
 	private List<Images> images;
-	private boolean isOpen;
+	private boolean isOpen; 
 
 	public boolean isOpen() {
 		return isOpen;
@@ -104,5 +104,4 @@ public class RestaurantDTO {
 	public void setImages(List<Images> images) {
 		this.images = images;
 	}
-
 }

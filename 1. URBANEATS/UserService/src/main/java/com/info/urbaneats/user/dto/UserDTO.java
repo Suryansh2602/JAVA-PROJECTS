@@ -7,31 +7,43 @@ import com.info.urbaneats.user.entity.User;
 
 public class UserDTO {
 	private Integer id;
-	private String email;
-	private String phone;
 	private String username;
 	private String role;
-	private List<String> restaurant;
+	private String email;
+	private String adharMasked;
+	private String phone;
 	private Images image;
-
-	public UserDTO() {
-	}
+	
+	public UserDTO() {}
 
 	public UserDTO(User user) {
 		this.id = user.getId();
 		this.username = user.getUsername();
-		this.email = user.getEmail();
 		this.role = user.getRole();
+		this.email = user.getEmail();
+
+		this.adharMasked = maskAdhar(user.getAdhar());
+
 		this.phone = user.getPhone();
-		this.restaurant = user.getRestaurant();
 		this.image = user.getImage();
 	}
 
-	public int getId() {
+	public static UserDTO fromEntity(User user) {
+		return new UserDTO(user);
+	}
+
+	private String maskAdhar(String adhar) {
+		if (adhar == null || adhar.length() < 4) {
+			return adhar != null ? adhar : "";
+		}
+		return "XXXXXXX" + adhar.substring(adhar.length() - 4);
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -43,6 +55,14 @@ public class UserDTO {
 		this.username = username;
 	}
 
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -51,12 +71,12 @@ public class UserDTO {
 		this.email = email;
 	}
 
-	public String getRole() {
-		return role;
+	public String getAdharMasked() {
+		return adharMasked;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setAdharMasked(String adharMasked) {
+		this.adharMasked = adharMasked;
 	}
 
 	public String getPhone() {
@@ -67,14 +87,6 @@ public class UserDTO {
 		this.phone = phone;
 	}
 
-	public List<String> getRestaurant() {
-		return restaurant;
-	}
-
-	public void setRestaurant(List<String> restaurant) {
-		this.restaurant = restaurant;
-	}
-
 	public Images getImage() {
 		return image;
 	}
@@ -82,5 +94,4 @@ public class UserDTO {
 	public void setImage(Images image) {
 		this.image = image;
 	}
-
 }

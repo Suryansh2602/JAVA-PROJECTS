@@ -1,8 +1,10 @@
 package com.info.urbaneats.restaurant.service;
 
 import com.info.urbaneats.restaurant.dto.RestaurantDTO;
+import com.info.urbaneats.restaurant.entity.Images;
 import com.info.urbaneats.restaurant.entity.Restaurant;
 import com.info.urbaneats.restaurant.repository.RestaurantRepository;
+import org.hibernate.Hibernate; // ✅ ADD THIS IMPORT
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,17 @@ public class RestaurantService {
 
 	public RestaurantDTO createRestaurant(Restaurant restaurant) {
 		Restaurant saved = restaurantRepository.save(restaurant);
+
+		if (restaurant.getImages() != null && !restaurant.getImages().isEmpty()) {
+			for (Images image : restaurant.getImages()) {
+				image.setRestaurant(saved);
+			}
+			saved.setImages(restaurant.getImages());
+			restaurantRepository.save(saved);
+		}
+
+		Hibernate.initialize(saved.getImages());
+
 		return mapEntityToDto(saved);
 	}
 
@@ -39,6 +52,7 @@ public class RestaurantService {
 	public RestaurantDTO getRestaurantById(Integer id) {
 		Restaurant restaurant = restaurantRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Restaurant not found: " + id));
+		Hibernate.initialize(restaurant.getImages()); // ✅ Force load
 		return mapEntityToDto(restaurant);
 	}
 
@@ -76,7 +90,6 @@ public class RestaurantService {
 		restaurantRepository.save(restaurant);
 	}
 
-//fetch by cuisine
 	public Page<RestaurantDTO> getRestaurantsByCuisine(String cuisineName, Pageable pageable) {
 		Page<Restaurant> page = restaurantRepository.findAll(pageable);
 		List<RestaurantDTO> filtered = new ArrayList<>();
@@ -86,12 +99,11 @@ public class RestaurantService {
 				for (String cuisine : restaurant.getCuisine()) {
 					if (cuisine.equalsIgnoreCase(cuisineName)) {
 						filtered.add(mapEntityToDto(restaurant));
-						break; // Found match, no need to check more
+						break;
 					}
 				}
 			}
 		}
-
 		return new PageImpl<>(filtered, pageable, filtered.size());
 	}
 
@@ -105,7 +117,7 @@ public class RestaurantService {
 
 	public Integer getLikeCount(Integer restaurantId) {
 		System.out.println("📊 Like count requested for restaurant ID: " + restaurantId);
-		return 0; // Phase 1 demo
+		return 0;
 	}
 
 	private RestaurantDTO mapEntityToDto(Restaurant restaurant) {
@@ -119,7 +131,9 @@ public class RestaurantService {
 		dto.setOwnerName(restaurant.getOwnerName());
 		dto.setDescription(restaurant.getDescription());
 		dto.setCuisine(restaurant.getCuisine());
-		dto.setImages(restaurant.getImages());
+		List<Images> imageList = restaurant.getImages();
+		dto.setImages(imageList);
+		dto.setOpen(restaurant.getIsOpen());
 		return dto;
 	}
 }

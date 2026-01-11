@@ -24,7 +24,7 @@ public class Restaurant {
 
 	private Boolean isOpen = true;
 
-	@OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Images> images;
 
 	public Integer getId() {

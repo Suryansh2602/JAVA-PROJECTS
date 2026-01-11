@@ -8,19 +8,22 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.info.urbaneats.user.JwtUtil;
+import com.info.urbaneats.user.dto.UserDTO;
 import com.info.urbaneats.user.entity.User;
 import com.info.urbaneats.user.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/user")
 public class UserController {
 
 	private final UserService userService;
@@ -36,9 +39,12 @@ public class UserController {
 		this.jwt = jwt;
 	}
 
-	@PostMapping
+	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@RequestBody User user) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(user));
+		if (userService.isUserPresent(user)) {
+			return ResponseEntity.badRequest().body("Email already exists");
+		}
+		return ResponseEntity.ok(userService.registerUser(user));
 	}
 
 	@PostMapping("/signin")
@@ -55,6 +61,12 @@ public class UserController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
-		return ResponseEntity.ok(userService.deleteUser(id));
+		return ResponseEntity.ok(userService.softDeleteUser(id));
 	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody User user) {
+	    return userService.updateUser(id, user);
+	}
+
 }

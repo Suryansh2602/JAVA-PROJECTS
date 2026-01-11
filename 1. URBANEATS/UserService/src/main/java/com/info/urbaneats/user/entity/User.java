@@ -2,6 +2,7 @@ package com.info.urbaneats.user.entity;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,9 +24,19 @@ public class User {
 	private String adhar;
 	private String phone;
 	private String password;
-	private List<String> restaurant;
-	@OneToOne(mappedBy = "user")
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private Images image;
+	private boolean status;
+
+	
+
+	public boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 
 	public String getUsername() {
 		return username;
@@ -85,13 +96,7 @@ public class User {
 		this.password = password;
 	}
 
-	public List<String> getRestaurant() {
-		return restaurant;
-	}
-
-	public void setRestaurant(List<String> restaurant) {
-		this.restaurant = restaurant;
-	}
+	
 
 	public Images getImage() {
 		return image;
@@ -100,5 +105,7 @@ public class User {
 	public void setImage(Images image) {
 		this.image = image;
 	}
+
+	
 
 }
