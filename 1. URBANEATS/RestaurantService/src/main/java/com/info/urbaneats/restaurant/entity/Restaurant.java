@@ -19,7 +19,6 @@ public class Restaurant {
 	private String ownerName;
 	private String description;
 
-	@ElementCollection
 	private List<String> cuisine;
 
 	private Boolean isOpen = true;
