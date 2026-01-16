@@ -52,8 +52,10 @@ public class RestaurantService {
 	public RestaurantDTO getRestaurantById(Integer id) {
 		Restaurant restaurant = restaurantRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Restaurant not found: " + id));
-		Hibernate.initialize(restaurant.getImages()); // ✅ Force load
+		List<Images> images = restaurantRepository.findByImagesRestaurantId(id);
+		restaurant.setImages(images);
 		return mapEntityToDto(restaurant);
+
 	}
 
 	public RestaurantDTO updateRestaurant(Integer id, Restaurant updateData) {
@@ -108,15 +110,15 @@ public class RestaurantService {
 	}
 
 	public void incrementLikeCount(Integer restaurantId) {
-		System.out.println("✅ Like INCREMENTED for restaurant ID: " + restaurantId);
+		System.out.println(" Like INCREMENTED for restaurant ID: " + restaurantId);
 	}
 
 	public void decrementLikeCount(Integer restaurantId) {
-		System.out.println("✅ Like DECREMENTED for restaurant ID: " + restaurantId);
+		System.out.println(" Like DECREMENTED for restaurant ID: " + restaurantId);
 	}
 
 	public Integer getLikeCount(Integer restaurantId) {
-		System.out.println("📊 Like count requested for restaurant ID: " + restaurantId);
+		System.out.println(" Like count requested for restaurant ID: " + restaurantId);
 		return 0;
 	}
 
