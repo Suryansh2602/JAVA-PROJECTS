@@ -1,3 +1,5 @@
+package com.info.urbaneats.dto;
+
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
